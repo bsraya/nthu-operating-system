@@ -22,7 +22,7 @@ void thinking(int);
 void pickup_forks(int);
 void return_forks(int);
 void test(int);
-void *philosopher(void *);
+void *philosophers(void *);
 
 int main() {
     int i=0;
@@ -31,7 +31,7 @@ int main() {
     
     //initialization
     for(i=0; i<PHILOSOPHER_NUMBER; i++) {
-        pthread_cond_init(cond_var+1, NULL); // condition variable with mutex lock
+        pthread_cond_init(cond_var+i, NULL); // condition variable with mutex lock
         state[i] = THINKING;
     }
 
@@ -46,7 +46,7 @@ int main() {
 
     // to control the philosophers' actions
     for(i=0; i<PHILOSOPHER_NUMBER; i++) {
-        pthread_create(thread+1, NULL, philosophers, (void*)(thread_index[i]));
+        pthread_create(thread+i, NULL, philosophers, (void*)(thread_index[i]));
     }
 
     // to join the philosophers' threads in order

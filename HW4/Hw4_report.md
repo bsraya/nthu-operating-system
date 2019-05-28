@@ -100,3 +100,7 @@ void* philosophers(void* n) {
 ```
 
 This is the function that binds four of the functions mentioned above.
+
+### Result
+
+![](/home/johnbjohn/Pictures/result.png)
