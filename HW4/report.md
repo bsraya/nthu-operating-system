@@ -12,6 +12,12 @@ There are four important functions in this project:
 
 ![Image result for dining philosophers problem](https://cdncontribute.geeksforgeeks.org/wp-content/uploads/operating_system_din.png)
 
+In this project, `mutex` is highly involved in achieving the expected result . There are two functions,  `void pickup_forks (void)` and  `void return_forks (void)`, that utilize `mutex`. There are two fundamental operations that a mutex is required to provide, `lock` and `unlock`.
+
+What is Mutex? It stands for Mutual Exculive, and it protects resources from being used by multiple threads. It only allows one thread in and blocking any other threads from accessing at the same time. If a thread wishes to use the mutex, it must call `pthread_mutex_lock(&mutex);` to occupy the resources and then call `pthread_mutex_unlock(&mutex);` to release the resources so the resources can be used by another thread.
+
+
+
 ### `void thinking (int)`
 
 ```c
@@ -22,6 +28,8 @@ void thinking(int nth_philosopher) {
 ```
 
 This function is responsible for putting all of the philosophers in THINKING state, or we can say SLEEP state, since none of them is doing anything for a certain period of time.
+
+
 
 ###  `void pickup_forks (int)`
 
@@ -41,6 +49,8 @@ void pickup_forks(int nth_philosopher){
 }
 ```
 
+This function is responsible for turning a certain philosopher's state into `HUNGRY` and make sure he is `EATING` by utilizing `mutex`. After releasing the `lock`, it has to check again whether that philosopher is still `EATING`. If he is, does nothing. If he isn't, it has to wait for the other philosopher done `EATING`.
+
 
 
 ### `void return_forks(int)`
@@ -56,7 +66,9 @@ void return_forks(int nth_philosopher) {
 }
 ```
 
-This function is called after a philosopher is done eating. After the philosopher is done eating, his/her state will be set to `THINKING`. 
+This function is called after a philosopher is done eating. After the philosopher is done eating, his/her state will be set to `THINKING`. After setting a certain philosopher's state into `THINKING`, it has to see if the person next to the current philosopher is eligible to eat. 
+
+
 
 ### `void test (int)`
 
@@ -73,6 +85,18 @@ void test(int nth_philosopher){
 
 This function can be called as `void eating (int)` function, since this is where `eating` process is actually happening. A philosopher is allowed to eat if condition is met when he is hungry and whether the left hand side and right hand side of the philosopher are not eating.
 
+
+
 ### `void* philosopher (void*)`
+
+```c
+void* philosophers(void* n) {
+    int nth_philosopher = ((Index*)n)->index;
+    thinking(nth_philosopher);
+    pickup_forks(nth_philosopher);
+    return_forks(nth_philosopher);
+    pthread_exit(0);
+}
+```
 
 This is the function that binds four of the functions mentioned above.
