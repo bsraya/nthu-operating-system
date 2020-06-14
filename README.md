@@ -15,7 +15,7 @@ score: 100
 score: 100
 
 ## HW4: The Dining Philosophers Problem
-score: 60
+score: 60 <br/>
 errors:
 1. algorithm <br/>
 2. output format
